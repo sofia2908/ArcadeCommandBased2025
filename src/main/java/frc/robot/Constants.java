@@ -7,9 +7,12 @@ package frc.robot;
 /** Add your docs here. */
 public class Constants {
 
-    public class DriveConstants{
+    public class Drive{
 
-
+        public static final int kLeftMasterPort = 3;
+        public static final int kLeftFollowerPort = 5;
+        public static final int kRightMasterPort = 2;
+        public static final int kRightFollowerPort = 4;
         
     }
 

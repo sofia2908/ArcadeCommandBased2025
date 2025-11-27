@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
 
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 public class DriveTrain extends SubsystemBase {
 
-  private final SparkMax leftMaster = new SparkMax(3, MotorType.kBrushed);
-  private final SparkMax leftFollower = new SparkMax(5, MotorType.kBrushed);
-  private final SparkMax rightMaster = new SparkMax(2, MotorType.kBrushed);
-  private final SparkMax rightFollower = new SparkMax(4, MotorType.kBrushed);
+  private final SparkMax leftMaster = new SparkMax(Constants.Drive.kLeftMasterPort, MotorType.kBrushed);
+  private final SparkMax leftFollower = new SparkMax(Constants.Drive.kLeftFollowerPort, MotorType.kBrushed);
+  private final SparkMax rightMaster = new SparkMax(Constants.Drive.kRightMasterPort, MotorType.kBrushed);
+  private final SparkMax rightFollower = new SparkMax(Constants.Drive.kRightFollowerPort, MotorType.kBrushed);
 
   private final SparkMaxConfig leftMasterConfig = new SparkMaxConfig();
   private final SparkMaxConfig leftFollowerConfig  = new SparkMaxConfig();
