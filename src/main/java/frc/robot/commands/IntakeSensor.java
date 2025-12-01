@@ -30,7 +30,7 @@ public class IntakeSensor extends Command {
   public void execute() {
 
     if (!intake.getSensor()) {
-      intake.runIntake(0.5);
+      intake.runIntake(-0.4);
 
     } else {
       intake.stopMotor();

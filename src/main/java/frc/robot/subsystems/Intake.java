@@ -16,9 +16,7 @@ import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   private final DigitalInput SensorPresencia = new DigitalInput(0);
-
   private final SparkMax intakeMotor = new SparkMax(Constants.IntakePorts.kintakePortMotor, MotorType.kBrushless);
-
   private final SparkMaxConfig intakeConfig = new SparkMaxConfig();
 
 

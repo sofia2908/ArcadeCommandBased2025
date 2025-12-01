@@ -26,7 +26,7 @@ public class GetCoral extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.runIntake(0.7); // Run intake in reverse to leave coral
+    intake.runIntake(0.5); // Run intake in reverse to leave coral
   
   }
 
