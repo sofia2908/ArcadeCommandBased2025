@@ -34,9 +34,10 @@ public class RobotContainer {
   
     public RobotContainer() {
       configureBindings();
-  
+      
+      intake.setDefaultCommand(intakeSensorCmd);
       driveTrain.setDefaultCommand(driveWithJoystickCmd);
-      //intake.setDefaultCommand(intakeSensorCmd);
+      
     }
   
     private void configureBindings() {
