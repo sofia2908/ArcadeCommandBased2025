@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.LeaveCoral;
+import frc.robot.commands.InCoral;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.PS4Controller;
 
+import frc.robot.commands.PositionOne;
+import frc.robot.commands.PositionTwo;
 
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 
@@ -25,6 +28,10 @@ public class RobotContainer {
 
   private final DriveWithJoystick driveWithJoystickCmd = new DriveWithJoystick(driveTrain, ps4Controller);
   private final LeaveCoral leaveCoralCmd = new LeaveCoral(intake);
+  private final InCoral inCoralCmd = new InCoral(intake);
+  private final PositionOne positionOneCmd = new frc.robot.commands.PositionOne(intake);
+  private final PositionTwo positionTwoCmd = new frc.robot.commands.PositionTwo(intake);
+
 
 
   public RobotContainer() {
@@ -35,6 +42,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     commandPS4Controller.circle().whileTrue(leaveCoralCmd);
+    commandPS4Controller.cross().whileTrue(inCoralCmd);
+    commandPS4Controller.triangle().onTrue(positionOneCmd);
+    commandPS4Controller.square().onTrue(positionTwoCmd);
 
 
 

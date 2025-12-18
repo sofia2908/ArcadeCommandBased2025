@@ -10,13 +10,20 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  private final SparkMax intakeMotor = new SparkMax(Constants.IntakePorts.kintakePortMotor, MotorType.kBrushed);
+  private final SparkMax intakeMotor = new SparkMax(Constants.IntakePorts.kintakePortMotor, MotorType.kBrushless);
 
   private final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+
+  private PIDController pidElevator = new PIDController(0.2, 0, 0.01);
+
+  private double targetPosition;
+  private boolean pidMode;
+  private final double tolerance = 2;
 
 
   /** Creates a new Intake. */
@@ -28,11 +35,43 @@ public class Intake extends SubsystemBase {
 
 
   public void runIntake(double speed) {
+    pidMode = false;
     intakeMotor.set(speed);
   }
 
+  //======Elevator ===========
+
+  public void positionOne(){
+    pidMode = true;
+    targetPosition = 0;
+  }
+  
+  public void positionTwo(){
+    pidMode = true;
+    targetPosition = 50;
+  }
+
+  public void targetPosition(double position){
+    targetPosition = position;
+  }
+
+  public double currentPosition(){
+    return intakeMotor.getEncoder().getPosition();
+  }
+
+  public void positionPID(){
+    double output = pidElevator.calculate(currentPosition(), targetPosition);
+    intakeMotor.set(output);
+  }
+
+  public boolean isAtPosition(){
+    return Math.abs(currentPosition() - targetPosition) <= tolerance;
+  }
+  
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if(pidMode){
+      positionPID();
+    }
   }
 }
