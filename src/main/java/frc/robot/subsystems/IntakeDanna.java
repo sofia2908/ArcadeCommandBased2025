@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
@@ -11,36 +12,33 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeDanna;
+import frc.robot.Constants;
 
+public class IntakeDanna extends SubsystemBase {
+  /** Creates a new IntakeDanna. */
+  
 
-public class Intake extends SubsystemBase {
-  private final SparkMax intakeMotor = new SparkMax(IntakeDanna.kintakePortMotor, MotorType.kBrushless);
+   SparkMax intakeMotor = new SparkMax(10, MotorType.kBrushless);
+   SparkMaxConfig IntakeConfig = new SparkMaxConfig();
 
-  private final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+   PIDController pidController = new PIDController(Constants.IntakeDanna.kP, Constants.IntakeDanna.kI, Constants.IntakeDanna.kD);
+   
+    double targetPosition;
+    boolean pidMode;
+    double tolerance = 2;
+  
 
-  private PIDController pidElevator = new PIDController(0.2, 0, 0.01);
-
-  private double targetPosition;
-  private boolean pidMode;
-  private final double tolerance = 2;
-
-
-  /** Creates a new Intake. */
-  public Intake() {
-
-    intakeConfig.inverted(false).idleMode(IdleMode.kBrake).smartCurrentLimit(40);
-    intakeMotor.configure(intakeConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
+  public IntakeDanna () {
+    IntakeConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40);
+    intakeMotor.configure(IntakeConfig, SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kPersistParameters);
   }
-
 
   public void runIntake(double speed) {
     pidMode = false;
     intakeMotor.set(speed);
   }
 
-  //======Elevator ===========
+  //ELEVADOR 
 
   public void positionOne(){
     pidMode = true;
@@ -52,27 +50,31 @@ public class Intake extends SubsystemBase {
     targetPosition = 50;
   }
 
+
   public void targetPosition(double position){
     targetPosition = position;
   }
+
 
   public double currentPosition(){
     return intakeMotor.getEncoder().getPosition();
   }
 
+  public boolean isAtposition () {
+    return Math.abs(currentPosition() - targetPosition) <= tolerance;
+  }
+
   public void positionPID(){
-    double output = pidElevator.calculate(currentPosition(), targetPosition);
+    double output = pidController.calculate(currentPosition(), targetPosition);
     intakeMotor.set(output);
   }
 
-  public boolean isAtPosition(){
-    return Math.abs(currentPosition() - targetPosition) <= tolerance;
-  }
-  
   @Override
   public void periodic() {
+    // This method will be called once per scheduler run
     if(pidMode){
       positionPID();
     }
+    
   }
 }

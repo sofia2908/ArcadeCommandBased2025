@@ -6,45 +6,53 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.IntakeDanna;
 import frc.robot.commands.DriveWithJoystick;
-import frc.robot.commands.LeaveCoral;
 import frc.robot.commands.InCoral;
+import frc.robot.commands.LeaveCoral;
+import frc.robot.commands.PosicionArriba;
+import frc.robot.commands.Posicionuno;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj.PS4Controller;
-
-import frc.robot.commands.PositionOne;
-import frc.robot.commands.PositionTwo;
-
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 
 public class RobotContainer {
 
-  private final DriveTrain driveTrain = new DriveTrain();
-  private final Intake intake = new Intake();
-  private final PS4Controller ps4Controller = new PS4Controller(0);
-  private final CommandPS4Controller commandPS4Controller = new CommandPS4Controller(0);
-
-
-  private final DriveWithJoystick driveWithJoystickCmd = new DriveWithJoystick(driveTrain, ps4Controller);
-  private final LeaveCoral leaveCoralCmd = new LeaveCoral(intake);
-  private final InCoral inCoralCmd = new InCoral(intake);
-  private final PositionOne positionOneCmd = new frc.robot.commands.PositionOne(intake);
-  private final PositionTwo positionTwoCmd = new frc.robot.commands.PositionTwo(intake);
-
-
-
-  public RobotContainer() {
-    configureBindings();
-
-    driveTrain.setDefaultCommand(driveWithJoystickCmd);
-  }
-
-  private void configureBindings() {
-    commandPS4Controller.circle().whileTrue(leaveCoralCmd);
-    commandPS4Controller.cross().whileTrue(inCoralCmd);
-    commandPS4Controller.triangle().onTrue(positionOneCmd);
-    commandPS4Controller.square().onTrue(positionTwoCmd);
+  
+    
+    
+      
+            private final DriveTrain driveTrain = new DriveTrain();
+            private final PS4Controller ps4Controller = new PS4Controller(0);
+            private final CommandPS4Controller commandPS4Controller = new CommandPS4Controller(0);
+            private final IntakeDanna intakeDanna = new IntakeDanna();
+            
+          
+    private final DriveWithJoystick driveWithJoystickCmd = new DriveWithJoystick(driveTrain, ps4Controller); 
+          
+          
+    private final InCoral InCoralCmd = new InCoral(intakeDanna);
+    private final LeaveCoral leaveCoralCmd = new LeaveCoral(intakeDanna);
+    private final Posicionuno posicionunoCmd = new Posicionuno(intakeDanna);
+    private final PosicionArriba posicionArribaCmd = new PosicionArriba(intakeDanna);
+  
+    
+    
+    
+  
+    public RobotContainer() {
+      configureBindings();
+  
+      driveTrain.setDefaultCommand(driveWithJoystickCmd);
+    }
+  
+    private void configureBindings() {
+      
+      commandPS4Controller.cross().whileTrue(InCoralCmd);
+      commandPS4Controller.triangle().whileTrue(leaveCoralCmd);
+    commandPS4Controller.square().whileTrue(posicionArribaCmd);
+    commandPS4Controller.circle().whileTrue(posicionunoCmd);
 
 
 

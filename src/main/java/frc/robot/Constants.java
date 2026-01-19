@@ -16,9 +16,14 @@ public class Constants {
         
     }
 
-    public class IntakePorts   {
+    public class IntakeDanna  {
         public static final int kintakePortMotor = 10;
+        public static final double kP = 0.2;
+        public static final double kI = 0.0;
+        public static final double kD = 0.01;
     }
+
+    public static final String IntakePorts = null;
 
 
 
